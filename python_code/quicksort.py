@@ -1,5 +1,5 @@
 import sys
-## まだ動かない
+import random
 
 def main():
     n = int(input())
@@ -10,9 +10,17 @@ def main():
 def qsort(seq, _l, _r):
     l = _l
     r = _r
-    pivot = seq[int(l+r/2)]
+    cent = int((l+r)/2)
+    pivot = seq[cent]
+    print(seq, l, r, pivot)
+    if (r - l) == 1:
+        if seq[r] < seq[l]:
+            seq[l], seq[r] = seq[r], seq[l]
+            return seq
+    if l >= r:
+        return seq
     while(l < r):
-        if seq[l] >= pivot and seq[r] < pivot:
+        if seq[l] >= pivot and seq[r] <= pivot:
             seq[l], seq[r] = seq[r], seq[l]
             l += 1
             r -= 1
@@ -23,13 +31,10 @@ def qsort(seq, _l, _r):
             l += 1
         elif seq[l] >= pivot and seq[r] >= pivot:
             r -= 1
-    left = seq[_l:l]
-    right = seq[l:_r]
-    print(left, right)
-    if len(left) <= 1 and len(right) <= 1:
+    if l == _l or r == _r:
         return seq
-    else:
-        seq = qsort(seq, 0, l)
-        seq = qsort(seq, l, r)
+    seq = qsort(seq, _l, cent)
+    seq = qsort(seq, cent, _r)
+    return seq
 if __name__ == '__main__':
     main()
